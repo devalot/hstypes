@@ -1,0 +1,24 @@
+#+title: Introduction to Haskell Types
+#+author: Peter Jones <pjones@devalot.com>
+#+startup: content
+
+* Topics and Goals
+  :PROPERTIES:
+  :ID:       c4d4eaed-d7c4-4ddb-a5a6-d535603438d6
+  :END:
+  1. Introduction to algebraic data types
+  2. Record syntax, fields, and functions
+  3. Product types (constructors with more than one argument)
+  4. Sum types (tagged unions)
+  5. Polymorphic types (product and sum)
+  6. Exploiting the type system
+* Introduction to Algebraic Data Types
+  - The data keyword
+  - Type constructors vs. data constructors
+  - Type constructors are used in type signatures
+  - Data constructors are used in patterns and code
+* Record Syntax, Fields, and Functions
+* Product Types
+* Sum Types
+* Polymorphic Types
+* Exploiting the Type System
