@@ -8,7 +8,7 @@ assert_equal ()
 {
   CUR_FILE=$1
   EXPECT=$2
-  ACTUAL=`runhaskell $CUR_FILE`
+  ACTUAL=`runhaskell -Wall -Werror $CUR_FILE`
 
   if [ "$ACTUAL" = "$EXPECT" ]; then
     return 0
@@ -23,3 +23,7 @@ assert_equal ()
 
 ################################################################################
 assert_equal intro.hs 10
+assert_equal rec.hs "Peter Jones"
+assert_equal product.hs "Peter"
+assert_equal sum.hs 1
+assert_equal poly.hs 6

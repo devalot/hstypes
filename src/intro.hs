@@ -1,19 +1,21 @@
 module Main where
 
 -- {BEGIN: intro}
---------------------------------------------------------------------------------
--- Basic data type with pattern matching.
 
 --------------------------------------------------------------------------------
+-- | Basic type using the same name for the type and data constructors.
 data IntWrapper = IntWrapper Int
 
 --------------------------------------------------------------------------------
+-- | Using the data constructor.
 wrapInt :: Int -> IntWrapper
 wrapInt x = IntWrapper x
 
 --------------------------------------------------------------------------------
+-- | Patter matching with the data constructor.
 unwrapInt :: IntWrapper -> Int
 unwrapInt (IntWrapper x) = x
+
 -- {END}
 
 --------------------------------------------------------------------------------

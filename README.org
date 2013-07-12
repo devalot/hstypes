@@ -18,7 +18,20 @@
   - Type constructors are used in type signatures
   - Data constructors are used in patterns and code
 * Record Syntax, Fields, and Functions
+  - Records look sort of like a C struct
+  - Fields turn into functions
+  - Record update syntax (sucks)
 * Product Types
+  - Data constructors that have more than one type
+  - Records with more than one field are product types
+  - Pattern matching to get the fields
 * Sum Types
+  - Multiple data constructors
+  - Canonical example: Bool = False | True
+  - Compared to a C enum
+  - Pattern matching on all data constructors
 * Polymorphic Types
+  - The type constructor uses type variables
+  - The Maybe and Either types
+  - Binary tree example
 * Exploiting the Type System
