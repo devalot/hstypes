@@ -69,6 +69,14 @@ modify :: (Integer -> Integer) -> ByteString -> Counters -> Counters
 modify f = Map.alter (Just . maybe initial f) where initial = f 0
 
 --------------------------------------------------------------------------------
+-- | Modify a counter based on the given command.
+dispatch :: ByteString -> ByteString -> TVar Counters -> STM ()
+dispatch "inc " key counters = modifyTVar' counters (modify succ key)
+dispatch "dec " key counters = modifyTVar' counters (modify pred key)
+dispatch "del " key counters = modifyTVar' counters (Map.delete key)
+dispatch _      _   _        = return ()
+
+--------------------------------------------------------------------------------
 -- | Mutate counters on behalf of a client.
 worker :: Handle -> TVar Counters -> IO ()
 worker h counters = forever $ do
@@ -76,11 +84,7 @@ worker h counters = forever $ do
   putStrLn $ "CMD: " ++ show cmd ++ " KEY: " ++ show key
 
   val <- atomically $ do
-    case cmd of
-      "inc " -> modifyTVar' counters (modify succ key)
-      "dec " -> modifyTVar' counters (modify pred key)
-      "del " -> modifyTVar' counters (Map.delete key)
-      _      -> return ()
+    dispatch cmd key counters
     Map.lookup key `fmap` readTVar counters
 
   B.hPutBuilder h $ case val of
