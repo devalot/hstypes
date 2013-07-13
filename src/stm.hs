@@ -75,13 +75,13 @@ worker h counters = forever $ do
   (cmd, key) <- B.splitAt 4 `fmap` B.hGetLine h
   putStrLn $ "CMD: " ++ show cmd ++ " KEY: " ++ show key
 
-  atomically $ case cmd of
-    "inc " -> modifyTVar' counters (modify succ key)
-    "dec " -> modifyTVar' counters (modify pred key)
-    "del " -> modifyTVar' counters (Map.delete key)
-    _      -> return ()
-
-  val <- Map.lookup key `fmap` readTVarIO counters
+  val <- atomically $ do
+    case cmd of
+      "inc " -> modifyTVar' counters (modify succ key)
+      "dec " -> modifyTVar' counters (modify pred key)
+      "del " -> modifyTVar' counters (Map.delete key)
+      _      -> return ()
+    Map.lookup key `fmap` readTVar counters
 
   B.hPutBuilder h $ case val of
     Nothing -> B.byteString "0\n"
