@@ -22,7 +22,6 @@
 module Main where
 
 --------------------------------------------------------------------------------
-import Control.Applicative
 import Control.Concurrent (forkFinally)
 import Control.Concurrent.STM
 import Control.Monad (forever)
@@ -65,7 +64,7 @@ import System.IO
 type Counters = Map.Map ByteString Integer
 
 --------------------------------------------------------------------------------
--- | Mutate a counter value given its key and a function.
+-- | Update a counter value given its key and a function.
 modify :: (Integer -> Integer) -> ByteString -> Counters -> Counters
 modify f = Map.alter (Just . maybe initial f) where initial = f 0
 
@@ -73,7 +72,7 @@ modify f = Map.alter (Just . maybe initial f) where initial = f 0
 -- | Mutate counters on behalf of a client.
 worker :: Handle -> TVar Counters -> IO ()
 worker h counters = forever $ do
-  (cmd, key) <- B.splitAt 4 <$> B.hGetLine h
+  (cmd, key) <- B.splitAt 4 `fmap` B.hGetLine h
   putStrLn $ "CMD: " ++ show cmd ++ " KEY: " ++ show key
 
   atomically $ case cmd of
@@ -82,18 +81,18 @@ worker h counters = forever $ do
     "del " -> modifyTVar' counters (Map.delete key)
     _      -> return ()
 
-  val <- Map.lookup key <$> readTVarIO counters
+  val <- Map.lookup key `fmap` readTVarIO counters
 
   B.hPutBuilder h $ case val of
     Nothing -> B.byteString "0\n"
-    Just n  -> B.string8 (show n) <> B.byteString "\n"
+    Just n  -> B.string8 (show n) <> B.char8 '\n'
 
 --------------------------------------------------------------------------------
 -- | Listen on a port and fork threads for each connection.
 main :: IO ()
 main = withSocketsDo $ do
   counters <- newTVarIO Map.empty
-  sock     <- listenOn $ PortNumber 9090
+  sock     <- listenOn (PortNumber 9090)
 
   forever $ do
     (handle, _, _) <- accept sock

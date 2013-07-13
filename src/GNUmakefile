@@ -13,5 +13,5 @@ clean:
 	rm stm *.hi *.o
 
 ################################################################################
-stm:
-	ghc -Wall -Werror -O2 --make stm.hs
+stm: stm.hs
+	ghc -Wall -Werror -O2 --make -o $@ $<
