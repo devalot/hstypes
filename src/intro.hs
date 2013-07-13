@@ -3,7 +3,9 @@ module Main where
 -- {BEGIN: intro}
 
 --------------------------------------------------------------------------------
--- | Basic type using the same name for the type and data constructors.
+-- | Basic type using the same name for the type and data
+-- constructors.  This data constructor is a function that takes an
+-- Int and returns an IntWrapper.
 data IntWrapper = IntWrapper Int
 
 --------------------------------------------------------------------------------

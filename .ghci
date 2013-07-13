@@ -1,0 +1,3 @@
+:set -XStandaloneDeriving
+:load "src/sql.hs"
+deriving instance Show (SQL a)

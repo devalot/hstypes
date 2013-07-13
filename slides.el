@@ -14,4 +14,5 @@
   ("src/sum.hs"      "shell")
   ("src/poly.hs"     "maybe")
   ("src/poly.hs"     "either")
-  ("src/poly.hs"     "tree")])
+  ("src/poly.hs"     "tree")
+  ("src/sql.hs"      "sql")])
