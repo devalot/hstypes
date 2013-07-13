@@ -36,3 +36,4 @@
   - Binary tree example
 * Exploiting the Type System
   - Preventing SQL injection attacks
+  - Software Transactional Memory
